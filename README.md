@@ -17,12 +17,13 @@ Classification / Summarization / Extraction / Prompt Engineering 등
 학습·평가·모델 비교에 활용 가능
 
 # 📁 폴더 구조
+'''
 /asset/       # 원본 및 가공된 텍스트 데이터
 
 /src/    # 코딩관련 예제
 
 /docs/       # 데이터 설명서 및 참고 문서
-
+'''
 
 
 필요 시 실제 저장소 구조에 맞게 수정하세요.
