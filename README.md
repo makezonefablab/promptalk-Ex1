@@ -18,7 +18,9 @@ Classification / Summarization / Extraction / Prompt Engineering 등
 
 # 📁 폴더 구조
 /asset/       # 원본 및 가공된 텍스트 데이터
+
 /src/    # 코딩관련 예제
+
 /docs/       # 데이터 설명서 및 참고 문서
 
 
