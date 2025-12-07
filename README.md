@@ -22,7 +22,7 @@ Classification / Summarization / Extraction / Prompt Engineering 등
 
 # 📁 폴더 구조
 ```
-/asset/       # 원본 및 가공된 텍스트 데이터
+/assets/      # 원본 및 가공된 텍스트 데이터
 
 /src/         # 코딩관련 예제
 
