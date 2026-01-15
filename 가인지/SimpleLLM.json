@@ -1,0 +1,149 @@
+{
+  "name": "SimpleLLM",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.prompt }} 지역의 부동산의 입지를 분석해줘. ",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -320,
+        16
+      ],
+      "id": "2ca0cac3-174a-4e0f-936c-a9fff56453a4",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        208
+      ],
+      "id": "c16a2a24-b24d-48cd-82c3-9a45414b5c02",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "4hu3NXDFMVTMgebb",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "my-ai-prompt",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -576,
+        -176
+      ],
+      "id": "8a52d2f0-f062-40f9-9df1-0d4eb0c8d164",
+      "name": "Webhook",
+      "webhookId": "264a040e-8806-480c-98b5-f4edb58c25ac"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ID\": {{ JSON.stringify($('Webhook').item.json.body.rowKey )}},\n  \"result\": {{ JSON.stringify($json.text) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        32,
+        -176
+      ],
+      "id": "0934c9a3-0575-4bcd-8805-bbe7f33d9ca4",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "formTitle": "부동산 분석",
+        "formFields": {
+          "values": [
+            {
+              "fieldName": "area",
+              "fieldLabel": "관심있는 지역의 이름을 입력하세요.",
+              "placeholder": "예) 합정동 지하철역 근처"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.4,
+      "position": [
+        -592,
+        16
+      ],
+      "id": "29f9e7e3-6942-4bfa-a6e9-f797c3ca1e33",
+      "name": "On form submission",
+      "webhookId": "95171b41-84fb-409b-a173-1fdf5438bbd2",
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "cc4b1706-4687-4ba6-9958-f396c75174dc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "81e8070b97fa9ce313ced21aaa994ad0fb2e18bb8accc55b4fdcc357d933e83e"
+  },
+  "id": "xTMz3NNtXq6ZeSatbH9g_",
+  "tags": []
+}
